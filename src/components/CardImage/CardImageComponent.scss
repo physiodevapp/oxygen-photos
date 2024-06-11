@@ -1,0 +1,39 @@
+
+
+.image-card {
+  width: 100%;
+  position: relative;
+
+  img {
+    width: 100%;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    padding: 1em;
+    color: white;
+    background-color: black;
+    border-radius: 0.6em 0.6em 0em 0em;
+
+    &__favourites {
+      flex-grow: 4;
+    }
+
+    &__details {
+      flex-grow: 1;
+      text-align: right;
+    }
+
+    &__download {
+      flex-grow: 1;
+      text-align: right;
+    }
+
+  }
+
+}

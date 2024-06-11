@@ -1,4 +1,4 @@
-import { SearchPhotos } from "./pages/SearchPhotos";
+import { SearchPhotos } from "./pages/SearchPhotosPage";
 
 function App() {
 
