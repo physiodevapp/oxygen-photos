@@ -19,9 +19,10 @@
 }
 
 .gallery {
-  &__freeze {
-    height: 100vh;
-    overflow: hidden;
+
+  height: 100vh;
+
+  &.freeze {
     filter: brightness(70%);
   }
 }

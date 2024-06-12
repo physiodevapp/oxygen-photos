@@ -21,7 +21,12 @@ export const favouritePhotosSlice = createSlice({
       localStorage.setItem("favouritesPhotos", JSON.stringify(state.data))
     },
     updateDescription: (state, action) => {
-      state
+      console.log({action});
+      state.data.map((photo) => {
+        if (photo.id === action.payload.id)
+          photo.description = action.payload.description;
+      })
+      localStorage.setItem("favouritesPhotos", JSON.stringify(state.data))
     },
     search: (state, action) => {
       state

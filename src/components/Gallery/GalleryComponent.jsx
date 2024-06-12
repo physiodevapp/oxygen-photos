@@ -19,7 +19,7 @@ export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSel
 
   const loadRef = useRef(null);  
 
-  const {detailPhoto, setDetailPhoto } = useContext(DetailPhotoContext)
+  const {detailPhoto, modalStatus } = useContext(DetailPhotoContext)
   
   useEffect(() => {
 
@@ -71,13 +71,12 @@ export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSel
         observer.unobserve(loadRef.current)
     }
 
-  }, [loadRef, page, isLoadingData])
-  
+  }, [loadRef, page, isLoadingData]) 
 
   return (
     <>
       {/* <div className="page">{page}</div> */}
-      <div className={`gallery${detailPhoto ? '__freeze' : ''}`}>
+      <div className={`gallery ${modalStatus === 'open' ? 'freeze' : ''}`}>
       {
         searchPhotosData.map((photo) => (
           <CardImageComponent photo={photo} key={photo.id} />
@@ -85,9 +84,7 @@ export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSel
       }
       </div>
       { !!searchTerm.trim().length && !isLoadingData && <div ref={loadRef} className='load-more'>Load more...</div> }
-      { 
-        detailPhoto && <DetailModalComponent photo={detailPhoto}/>      
-      }
+      { detailPhoto && <DetailModalComponent photo={detailPhoto} canEdit={false}/> }
     </>
   )
 }

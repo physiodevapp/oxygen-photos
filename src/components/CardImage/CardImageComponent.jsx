@@ -4,13 +4,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { ImageButtonsComponent } from "../ImageButtons/ImageButtonsComponent";
 
-export const CardImageComponent = ({photo, handleClickDetail}) => {
+export const CardImageComponent = ({photo}) => {
 
   return (
     <>
       <figure className='image-card'>
         <img src={photo.urls.regular} alt={photo.alt_description}/> 
-        <ImageButtonsComponent photo={photo} canDetail={true}/>
+        <ImageButtonsComponent photo={photo} canShowDetail={true}/>
       </figure>
     </>
   )
