@@ -18,37 +18,7 @@ const Gallery = () => {
   const searchPhotosError = useSelector(searchPhotosErrorSelect)
   const searchPhotosStatus = useSelector(searchPhotosStatusSelect)
 
-  const loadRef = useRef(null);
-
-  const updateGallery = async (page, per_page) => {
-
-    setIsLoadingData(true);
-
-    try {
-      
-      const jsonData = await listPhotos(page, per_page);
-
-      jsonData && setPhotos((prevPhotos) => {    
-        let nextPhotos;    
-        const newPhotos = [...jsonData].filter((jsonPhoto) => JSON.stringify(prevPhotos).search(jsonPhoto.id) === -1);    
-        nextPhotos = [...prevPhotos, ...newPhotos];    
-        return nextPhotos;    
-      });
-
-      !jsonData && setCanLoadMoreData(false);
-
-      jsonData && setPage((prevPage) => prevPage + 1); 
-
-      setIsLoadingData(false)
-
-    } catch (error) {
-      console.log(error);
-
-      setIsLoadingData(false)
-    }
-
-  }
-  
+  const loadRef = useRef(null);  
   
   useEffect(() => {
 
@@ -80,7 +50,7 @@ const Gallery = () => {
 
     const observer = new IntersectionObserver((entries) => {
 
-      if (entries[0].isIntersecting && window.scrollY) {
+      if (entries[0].isIntersecting && window.scrollY && !isLoadingData) {
         console.log('intersected!');
         dispatch(searchPhotosThunk({page: page + 1, per_page: 20}))
         setPage((prevPage) => prevPage + 1)
@@ -106,6 +76,7 @@ const Gallery = () => {
 
   return (
     <>
+      <div className="page">{page}</div>
       {
         searchPhotosData.map((photo, index) => (
           <CardImageComponent photo={photo} key={photo.id}/>
