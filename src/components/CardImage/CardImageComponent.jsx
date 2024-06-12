@@ -3,7 +3,7 @@ import "./CardImageComponent.scss"
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from "react-redux"
-import { add, favouritePhotosDataSelect, isFavourite } from "../../features/favouritesPhotos/favouritePhotosSlice"
+import { addRemove, favouritePhotosDataSelect } from "../../features/favouritesPhotos/favouritePhotosSlice"
 
 export const CardImageComponent = ({photo}) => {
 
@@ -13,8 +13,7 @@ export const CardImageComponent = ({photo}) => {
   const handleClick = (action, photo) => {
     switch (action) {
       case 'favourite':
-        // console.log(photo)
-        dispatch(add(photo))
+        dispatch(addRemove(photo))
         break;
     
       default:
@@ -36,7 +35,7 @@ export const CardImageComponent = ({photo}) => {
       <figure className='image-card'>
         <img src={photo.urls.regular} alt={photo.alt_description}/> 
         <ul className="image-card__buttons">
-          <li className="image-card__buttons__favourites"><button onClick={() => handleClick('favourite', photo)}><i data-fav={isFavourite(photo)} className={`fa fa-bookmark-o`}></i></button></li>
+          <li className="image-card__buttons__favourites"><button onClick={() => handleClick('favourite', photo)}><i data-fav={isFavourite(photo)} className={isFavourite(photo) ? 'fa fa-bookmark' : 'fa fa-bookmark-o'}></i></button></li>
           <li className="image-card__buttons__details"><button><i className="fa fa-info"></i></button></li>
           <li className="image-card__buttons__download"><button><i className="fa fa-cloud-download"></i></button></li>
         </ul>

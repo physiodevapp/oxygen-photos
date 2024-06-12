@@ -17,7 +17,7 @@ export const searchPhotosSlice = createSlice({
         state.status = "pending";
       })
       .addCase(searchPhotosThunk.fulfilled, (state, action) => {
-        console.log({action});
+        // console.log({action});
         const newData = [...action.payload].filter((jsonPhoto) => JSON.stringify(state.data).search(jsonPhoto.id) === -1); 
         state.data.push(...newData)
         state.status = "fulfilled";

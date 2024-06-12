@@ -8,20 +8,19 @@ export const favouritePhotosSlice = createSlice({
   },
   reducers: {
     load: (state, action) => {
-      if (JSON.parse(localStorage.getItem("favouritesPhotos")))
-        state.data = JSON.parse(localStorage.getItem("favouritesPhotos"))
+      const localStorageFavourites = JSON.parse(localStorage.getItem("favouritesPhotos"));
+      if (localStorageFavourites)
+        state.data = localStorageFavourites
     },
-    add: (state, action) => {
+    addRemove: (state, action) => {
       if (!state.data.find((photo) => photo.id === action.payload.id)) {
+        console.log('add');
         state.data.push(action.payload)
-        localStorage.setItem("favouritesPhotos", JSON.stringify(state.data))
+      } else {
+        console.log('remove');
+        state.data = state.data.filter((photo) => photo.id !== action.payload.id)
       }
-    },
-    remove: (state, action) => {
-      state
-    },
-    isFavourite: (state, action) => {
-      return false
+      localStorage.setItem("favouritesPhotos", JSON.stringify(state.data))
     },
     updateDescription: (state, action) => {
       state
@@ -35,6 +34,6 @@ export const favouritePhotosSlice = createSlice({
   }
 })
 
-export const { load, add, remove, isFavourite, updateDescription, search, download } = favouritePhotosSlice.actions;
+export const { load, addRemove, updateDescription, search, download } = favouritePhotosSlice.actions;
 
 export const favouritePhotosDataSelect = (state) => state.favouritePhotos.data
