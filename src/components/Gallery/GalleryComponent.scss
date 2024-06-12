@@ -17,3 +17,11 @@
   text-align: center;
   z-index: 1;
 }
+
+.gallery {
+  &__freeze {
+    height: 100vh;
+    overflow: hidden;
+    filter: brightness(70%);
+  }
+}

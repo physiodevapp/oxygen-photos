@@ -14,10 +14,8 @@ export const favouritePhotosSlice = createSlice({
     },
     addRemove: (state, action) => {
       if (!state.data.find((photo) => photo.id === action.payload.id)) {
-        console.log('add');
         state.data.push(action.payload)
       } else {
-        console.log('remove');
         state.data = state.data.filter((photo) => photo.id !== action.payload.id)
       }
       localStorage.setItem("favouritesPhotos", JSON.stringify(state.data))

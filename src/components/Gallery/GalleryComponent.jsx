@@ -1,30 +1,31 @@
 import "./GalleryComponent.scss";
 
-import React, { useEffect, useRef, useState } from 'react'
-import { listPhotos } from '../../app/store';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux';
-import { searchPhotosDataSelect, searchPhotosErrorSelect, searchPhotosStatusSelect } from '../../features/searchPhotos/searchPhotosSlice';
-import { searchPhotosThunk } from '../../features/searchPhotos/searchPhotosThunk';
 import { CardImageComponent } from "../CardImage/CardImageComponent";
+import { DetailModalComponent } from "../DetailModal/DetailModalComponent";
+import { DetailPhotoContext } from "../../contexts/DetailPhotoContext";
 
-const Gallery = () => {
+export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSelect, getPhotos}) => {
 
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [page, setPage] = useState(1);
-  // const [canLoadMoreData, setCanLoadMoreData] = useState(true);
 
   const dispatch = useDispatch();
-  const searchPhotosData = useSelector(searchPhotosDataSelect);
-  const searchPhotosError = useSelector(searchPhotosErrorSelect)
-  const searchPhotosStatus = useSelector(searchPhotosStatusSelect)
+  const searchPhotosData = useSelector(dataSelect);
+  const searchPhotosError = useSelector(errorSelect);
+  const searchPhotosStatus = useSelector(statusSelect);
 
   const loadRef = useRef(null);  
+
+  const {detailPhoto, setDetailPhoto } = useContext(DetailPhotoContext)
   
   useEffect(() => {
 
     switch (searchPhotosStatus) {
       case 'idle': 
-        dispatch(searchPhotosThunk({page: 1, per_page: 20}))
+        dispatch(getPhotos({page: 1, per_page: 20, words: searchTerm}))
         break;
 
       case 'pending':
@@ -36,7 +37,7 @@ const Gallery = () => {
         break;
       
       case 'rejected':
-        setIsLoadingData(false)
+        setIsLoadingData(false);
         break;
 
       default:
@@ -52,9 +53,8 @@ const Gallery = () => {
 
       if (entries[0].isIntersecting && window.scrollY && !isLoadingData) {
         console.log('intersected!');
-        dispatch(searchPhotosThunk({page: page + 1, per_page: 20}))
+        dispatch(getPhotos({page: page + 1, per_page: 20, words: searchTerm}))
         setPage((prevPage) => prevPage + 1)
-
       }
     },
     { 
@@ -76,17 +76,26 @@ const Gallery = () => {
 
   return (
     <>
-      <div className="page">{page}</div>
+      {/* <div className="page">{page}</div> */}
+      <div className={`gallery${detailPhoto ? '__freeze' : ''}`}>
       {
-        searchPhotosData.map((photo, index) => (
-          <CardImageComponent photo={photo} key={photo.id}/>
+        searchPhotosData.map((photo) => (
+          <CardImageComponent photo={photo} key={photo.id} />
         ))
       }
-      {
-        !isLoadingData && <div ref={loadRef} className='load-more'>Load more...</div>
+      </div>
+      { !!searchTerm.trim().length && !isLoadingData && <div ref={loadRef} className='load-more'>Load more...</div> }
+      { 
+        detailPhoto && <DetailModalComponent photo={detailPhoto}/>      
       }
     </>
   )
 }
 
-export default Gallery
+GalleryComponent.propTypes = {
+  searchTerm: PropTypes.string,
+  getPhotos: PropTypes.func,
+  dataSelect: PropTypes.func,
+  statusSelect: PropTypes.func,
+  errorSelect: PropTypes.func
+}

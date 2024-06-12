@@ -8,37 +8,4 @@
     width: 100%;
   }
 
-  &__buttons {
-    display: flex;
-    flex-direction: row;
-    list-style-type: none;
-    position: absolute;
-    bottom: 0%;
-    width: 100%;
-    padding: 0.6em 1em;
-    color: white;
-    background-color: black;
-    border-radius: 0.6em 0.6em 0em 0em;
-
-    button {
-      border: none;
-      background-color: transparent;
-      color: white;
-      padding: 0.1em 0.2em;
-      border-radius: 0.2em;
-      font-size: 1.8rem;
-    }
-
-    &__favourites {
-      flex-grow: 10;
-
-    }
-
-    &__details, &__download {
-      flex-grow: 1;
-      text-align: right;
-    }
-
-  }
-
 }
