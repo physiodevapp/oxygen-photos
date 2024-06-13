@@ -7,7 +7,7 @@ import { CardImageComponent } from "../CardImage/CardImageComponent";
 import { DetailModalComponent } from "../DetailModal/DetailModalComponent";
 import { DetailPhotoContext } from "../../contexts/DetailPhotoContext";
 
-export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSelect, getPhotos}) => {
+export const GalleryComponent = ({searchTerm, hasChangedSearchTerm, dataSelect, errorSelect, statusSelect, getPhotos}) => {
 
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [page, setPage] = useState(1);
@@ -22,10 +22,9 @@ export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSel
   const {detailPhoto, modalStatus } = useContext(DetailPhotoContext)
   
   useEffect(() => {
-
     switch (searchPhotosStatus) {
       case 'idle': 
-        dispatch(getPhotos({page: 1, per_page: 20, words: searchTerm}))
+        dispatch(getPhotos({page: 1, per_page: 20, term: searchTerm}))
         break;
 
       case 'pending':
@@ -34,6 +33,8 @@ export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSel
     
       case 'fulfilled':
         setIsLoadingData(false);
+        if (!isLoadingData)
+          dispatch(getPhotos({page: 1, per_page: 20, term: searchTerm}))
         break;
       
       case 'rejected':
@@ -44,16 +45,15 @@ export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSel
         break;
     }
 
-  }, [searchPhotosStatus])
+  }, [searchPhotosStatus, searchTerm])
 
   
   useEffect(() => {
-
     const observer = new IntersectionObserver((entries) => {
 
       if (entries[0].isIntersecting && window.scrollY && !isLoadingData) {
         console.log('intersected!');
-        dispatch(getPhotos({page: page + 1, per_page: 20, words: searchTerm}))
+        dispatch(getPhotos({page: page + 1, per_page: 20, term: searchTerm, isNewTerm: false}))
         setPage((prevPage) => prevPage + 1)
       }
     },
@@ -71,7 +71,7 @@ export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSel
         observer.unobserve(loadRef.current)
     }
 
-  }, [loadRef, page, isLoadingData]) 
+  }, [loadRef, page, isLoadingData, searchTerm]) 
 
   return (
     <>
@@ -84,13 +84,14 @@ export const GalleryComponent = ({searchTerm, dataSelect, errorSelect, statusSel
       }
       </div>
       { !!searchTerm.trim().length && !isLoadingData && <div ref={loadRef} className='load-more'>Load more...</div> }
-      { detailPhoto && <DetailModalComponent photo={detailPhoto} canEdit={false}/> }
+      { detailPhoto && <DetailModalComponent canEdit={true}/> }
     </>
   )
 }
 
 GalleryComponent.propTypes = {
   searchTerm: PropTypes.string,
+  hasChangedSearchTerm: PropTypes.bool,
   getPhotos: PropTypes.func,
   dataSelect: PropTypes.func,
   statusSelect: PropTypes.func,

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addRemove, favouritePhotosDataSelect } from '../../features/favouritesPhotos/favouritePhotosSlice';
 import { DetailPhotoContext } from "../../contexts/DetailPhotoContext";
 
-export const ImageButtonsComponent = ({photo, canShowDetail}) => {
+export const ImageButtonsComponent = ({photo, canShowDetail, watchIsFavourite = () => {}}) => {
 
   const dispatch = useDispatch();
   const favouritePhotosData = useSelector(favouritePhotosDataSelect);
@@ -24,7 +24,9 @@ export const ImageButtonsComponent = ({photo, canShowDetail}) => {
   }
 
   useEffect(() => {
-    setIsFavourite(!!favouritePhotosData.find((favPhoto) => favPhoto.id === photo.id))
+    const isFavourite = !!favouritePhotosData.find((favPhoto) => favPhoto.id === photo.id)
+    setIsFavourite(isFavourite)
+    watchIsFavourite(isFavourite);
   
   }, [favouritePhotosData])
   
@@ -42,5 +44,6 @@ export const ImageButtonsComponent = ({photo, canShowDetail}) => {
 
 ImageButtonsComponent.propTypes = {
   photo: PropTypes.object,
-  canShowDetail: PropTypes.bool
+  canShowDetail: PropTypes.bool,
+  watchIsFavourite: PropTypes.func
 }
