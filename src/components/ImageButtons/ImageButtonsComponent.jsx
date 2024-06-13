@@ -11,15 +11,29 @@ export const ImageButtonsComponent = ({photo, canShowDetail, watchIsFavourite = 
   const favouritePhotosData = useSelector(favouritePhotosDataSelect);
   const [isFavourite, setIsFavourite] = useState(false)
 
-  const { toggleModal } = useContext(DetailPhotoContext)
+  const { toggleModal } = useContext(DetailPhotoContext);
+
+  const downloadImage = async (imageSrc, imageName = "image") => {
+    const image = await fetch(imageSrc)
+    const imageBlog = await image.blob()
+    const imageURL = URL.createObjectURL(imageBlog)
+  
+    const link = document.createElement('a')
+    link.href = imageURL
+    link.download = imageName
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   const handleClick = (action, photo) => {
 
-    if (action ==='favourite'){
-      dispatch(addRemove(photo));
-    } else if (action === 'detail') {
+    if (action ==='favourite')
+      dispatch(addRemove(photo))
+    else if (action === 'detail')
       toggleModal('open', photo)
-    }
+    else if (action === 'download')      
+      downloadImage(photo.urls.full, `photo_${Date.now()}`)
 
   }
 
@@ -36,7 +50,7 @@ export const ImageButtonsComponent = ({photo, canShowDetail, watchIsFavourite = 
       <ul className="image-buttons">
         <li className="image-buttons__favourites"><button onClick={() => handleClick('favourite', photo)}><i className={isFavourite ? 'fa fa-bookmark' : 'fa fa-bookmark-o'}></i></button></li>
         {canShowDetail && <li className="image-buttons__details"><button onClick={() => handleClick('detail', photo)}><i className="fa fa-info"></i></button></li>}
-        <li className="image-buttons__download"><button><i className="fa fa-cloud-download"></i></button></li>
+        <li className="image-buttons__download"><button onClick={() => handleClick('download', photo)}><i className="fa fa-cloud-download"></i></button></li>
       </ul>
     </>
   )

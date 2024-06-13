@@ -24,7 +24,7 @@ export const searchPhotosSlice = createSlice({
           const newData = action.payload.photos.filter((jsonPhoto) => JSON.stringify(state.data).search(jsonPhoto.id) === -1); 
           state.data.push(...newData)
         }
-        
+      
         state.status = "fulfilled";
       })
       .addCase(searchPhotosThunk.rejected, (state, action) => {

@@ -27,26 +27,28 @@ export const DetailModalComponent = ({canEdit}) => {
   }
 
   return (
-    <section className={`photo-detail ${modalStatus === 'close' ? 'slide-out-bottom' : modalStatus === 'open' ? 'slide-in-bottom' : '' }`}>
-      <button className="photo-detail__close-button" onClick={() => toggleModal('close')}>X</button>
-      <figure className="photo-detail__image">
-        <img src={detailPhoto.urls.regular} alt={detailPhoto.alt_description}/>
-      </figure>
-      <article className="photo-detail__info">
-        <li className="photo-detail__info__features">
-          <ul>Size: <b>{detailPhoto.width}</b> x <b>{detailPhoto.height}</b></ul>
-          <ul>Likes: <b>{detailPhoto.likes}</b> <i className="fa fa-heart pulsate-fwd" style={{color: 'red'}}></i></ul>
-        </li>
-        <h4 className="photo-detail__info__title">About the image {canEdit && isFavourite && <i className="fa fa-pencil-square-o" onClick={() => setActivateEditation(!activateEditation)}></i>}</h4>
-        <textarea className="photo-detail__info__description" rows={4} disabled={!canEdit || !activateEditation} value={imageDescription} onChange={handleChangeDescription}></textarea>
+    <section className="photo-detail">
+      <article className={`photo-detail__article ${modalStatus === 'close' ? 'slide-out-bottom' : modalStatus === 'open' ? 'slide-in-bottom' : '' }`}>
+        <button className="photo-detail__article__close-button" onClick={() => toggleModal('close')}>X</button>
+        <figure className="photo-detail__article__image">
+          <img src={detailPhoto.urls.regular} alt={detailPhoto.alt_description}/>
+        </figure>
+        <article className="photo-detail__article__info">
+          <li className="photo-detail__article__info__features">
+            <ul>Size: <b>{detailPhoto.width}</b> x <b>{detailPhoto.height}</b></ul>
+            <ul>Likes: <b>{detailPhoto.likes}</b> <i className="fa fa-heart pulsate-fwd" style={{color: 'red'}}></i></ul>
+          </li>
+          <h4 className="photo-detail__article__info__title">About the image {canEdit && isFavourite && <i className="fa fa-pencil-square-o" onClick={() => setActivateEditation(!activateEditation)}></i>}</h4>
+          <textarea className="photo-detail__article__info__description" rows={6} disabled={!canEdit || !activateEditation} value={imageDescription} onChange={handleChangeDescription}></textarea>
+        </article>
+        { !activateEditation && <ImageButtonsComponent photo={detailPhoto} canShowDetail={false} watchIsFavourite={(isFavourite) => setIsFavourite(isFavourite)}/> } 
+        { activateEditation && 
+          <ul className="photo-detail__article__edit-buttons">
+            <li><button className="photo-detail__article__edit-buttons--dismiss" onClick={() => setActivateEditation(false)} >Dismiss</button></li>
+            <li><button className="photo-detail__article__edit-buttons--update" onClick={handleClickUpdate}>Update</button></li>
+          </ul> 
+        }
       </article>
-      { !activateEditation && <ImageButtonsComponent photo={detailPhoto} canShowDetail={false} watchIsFavourite={(isFavourite) => setIsFavourite(isFavourite)}/> } 
-      { activateEditation && 
-        <ul className="photo-detail__edit-buttons">
-          <li><button className="photo-detail__edit-buttons--dismiss" onClick={() => setActivateEditation(false)} >Dismiss</button></li>
-          <li><button className="photo-detail__edit-buttons--update" onClick={handleClickUpdate}>Update</button></li>
-        </ul> 
-      }
     </section>
   )
 }

@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import { DetailPhotoContext } from "./DetailPhotoContext";
-import { useSelector } from "react-redux";
-import { favouritePhotosDataSelect } from "../features/favouritesPhotos/favouritePhotosSlice";
 
 export const DetailPhotoProvider = ({children}) => {
   const [detailPhoto, setDetailPhoto] = useState(null);
   const [modalStatus, setModalStatus] = useState(null);
-
-  const favouritePhotosData = useSelector(favouritePhotosDataSelect);
 
   if (detailPhoto)
     document.body.style.setProperty("overflow", "hidden");

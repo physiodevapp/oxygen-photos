@@ -7,7 +7,7 @@ export const favouritePhotosSlice = createSlice({
     data: []
   },
   reducers: {
-    load: (state, action) => {
+    loadFromStorage: (state, action) => {
       const localStorageFavourites = JSON.parse(localStorage.getItem("favouritesPhotos"));
       if (localStorageFavourites)
         state.data = localStorageFavourites
@@ -27,16 +27,10 @@ export const favouritePhotosSlice = createSlice({
           photo.description = action.payload.description;
       })
       localStorage.setItem("favouritesPhotos", JSON.stringify(state.data))
-    },
-    search: (state, action) => {
-      state
-    },
-    download: (state, action) => {
-      state
     }
   }
 })
 
-export const { load, addRemove, updateDescription, search, download } = favouritePhotosSlice.actions;
+export const { loadFromStorage, addRemove, updateDescription } = favouritePhotosSlice.actions;
 
 export const favouritePhotosDataSelect = (state) => state.favouritePhotos.data
