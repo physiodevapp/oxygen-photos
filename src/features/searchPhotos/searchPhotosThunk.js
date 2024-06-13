@@ -10,14 +10,24 @@ export const searchPhotosThunk = createAsyncThunk("searchPhotos", async ({page, 
   if (hasQuery)
     url = `https://api.unsplash.com/search/photos?page=${page}&per_page=${per_page}&query=${term}`
   
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      Authorization: `Client-ID ${import.meta.env.VITE_ACCESS_KEY}`
-    }
-  });
+  let response;
+  let jsonData;
+  try {
+    response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Client-ID ${import.meta.env.VITE_ACCESS_KEY}`
+      }
+    });
+  } catch (error) {
+    throw `Error while trying to fetch data from API ${error}`
+  }
 
-  const jsonData = await response.json();
+  try {
+    jsonData = await response.json();
+  } catch (error) {
+    throw `Error while trying to convert the response to json format ${error}`
+  }
 
   const photos = hasQuery ? { ...jsonData, isNewTerm } : { results: jsonData, isNewTerm }
 
