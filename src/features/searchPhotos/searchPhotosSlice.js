@@ -12,7 +12,7 @@ export const searchPhotosSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(searchPhotosThunk.pending, (state, action) => {
+      .addCase(searchPhotosThunk.pending, (state) => {
         state.status = "pending";
       })
       .addCase(searchPhotosThunk.fulfilled, (state, action) => {

@@ -5,7 +5,7 @@ export const HeaderComponent = () => {
   return (
     <>
       <header className="header">
-        header
+        Photography
       </header>
     </>
   )

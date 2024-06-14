@@ -25,13 +25,13 @@
   }
 
   &.hide {
-    opacity: 0;
+    display: none;
   }
-  
+   
 }
 
 .isLoading {
-  height: 100vh;
+  height: calc(100vh + 50px);
   width: 100%;
-  background-color: greenyellow;
+  background-color: rgb(216, 216, 215);
 }
