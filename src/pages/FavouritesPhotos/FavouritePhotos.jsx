@@ -34,14 +34,21 @@ export const FavouritePhotosPage = () => {
   }
 
   useEffect(() => {
-
     setIsLoadingData(true)
     setTimeout(() => {
       setIsLoadingData(false)
 
-      setFilteredPhotos(() => (
-        [...favouritePhotosData].filter((photo) => photo.description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)
-      ))
+      setFilteredPhotos(() => {
+        let filteredPhotos;
+        if (searchTerm === ""  || searchTerm === "random") {
+          filteredPhotos = [...favouritePhotosData]
+        } else {
+          filteredPhotos = [...favouritePhotosData].filter((photo) => photo.description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)
+        }
+      
+        return filteredPhotos
+
+      })
       
     }, 1500);
 

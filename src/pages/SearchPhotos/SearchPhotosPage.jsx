@@ -16,7 +16,7 @@ export const SearchPhotosPage = () => {
   const { detailPhoto, modalStatus } = useContext(DetailPhotoContext);
 
   const [searchTerm, setSearchTerm] = useState('');  
-  const [isSearchTermBlank, setIsSearchTermBlank] = useState(true);
+  const [isSearchTermBlank, setIsSearchTermBlank] = useState(false);
   const [hasSearchTermChanged, setHasSearchTermChanged] = useState(false);
 
   const loadRef = useRef(null); 
@@ -47,6 +47,7 @@ export const SearchPhotosPage = () => {
   }
 
   useEffect(() => {
+    // console.log('searchPhotosStatus _--> ', searchPhotosStatus);
     switch (searchPhotosStatus) {
       case 'idle': 
         dispatch(searchPhotosThunk({page: 1, per_page: 20}))
@@ -78,10 +79,13 @@ export const SearchPhotosPage = () => {
     console.log('searchTerm -->', searchTerm);
     console.log('isSearchTermBlank --> ', isSearchTermBlank);
     console.log('hasSearchTermChanged --> ', hasSearchTermChanged);
-    if (searchTerm === '' || searchTerm === 'random')
+    if (hasSearchTermChanged) { // searchTerm === '' || searchTerm === 'random'
+      console.log('object');
       dispatch(searchPhotosThunk({page: 1, per_page: 20}))
-    else 
+    } else if (searchTerm !== "" && searchTerm !== "random") {
+      console.log('object2');
       dispatch(searchPhotosThunk({page: 1, per_page: 20, term: searchTerm}))
+    }
   }, [searchTerm])
 
   useEffect(() => {
