@@ -18,11 +18,13 @@ function App() {
       const navbar = document.getElementById("navbar");
       const stickyHeight = navbar.offsetTop;
 
-      if (window.scrollY > stickyHeight)
+      if (window.scrollY > stickyHeight) {
         navbar.classList.add("sticky")
-      else
+        navbar.classList.remove("unsticky")
+      } else {
         navbar.classList.remove("sticky")
-
+        navbar.classList.add("unsticky")
+      }
     }
 
     window.addEventListener("scroll", handleScroll)

@@ -23,5 +23,15 @@
   &.freeze {
     filter: brightness(70%);
   }
+
+  &.hide {
+    display: none;
+  }
   
+}
+
+.isLoading {
+  height: calc(100vh + 50px);
+  width: 100%;
+  background-color: rgb(216, 216, 215);
 }

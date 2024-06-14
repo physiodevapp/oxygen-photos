@@ -15,11 +15,14 @@ $sticky-height: 70px;
   justify-content: space-between;
   padding: 0em 1em;
   column-gap: 1em;
-  // position: fixed;
 
   &.sticky {
     position: fixed;
     top: 0em;
+  }
+
+  &.unsticky {
+    position: relative;
   }
 
   & .nav-button, & .sort-button {

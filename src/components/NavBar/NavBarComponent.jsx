@@ -31,7 +31,7 @@ export const NavBarComponent = ({sortBySelected, watchSearchTerm = () => {}, wat
 
   return (
     <>
-      <nav id="navbar" className='navbar'>
+      <nav id="navbar" className='navbar unsticky'>
         <button className='nav-button' onClick={handleClickPath}>
         { location.pathname.indexOf("favourites") === -1 ? 
           <i className={hasFavourites ? "fa fa-bookmark" : "fa fa-bookmark-o"}></i> : 
