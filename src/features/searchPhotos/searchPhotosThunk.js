@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 
 export const searchPhotosThunk = createAsyncThunk("searchPhotos", async ({page, per_page, term = "", isNewTerm = true}) => {
-
+  console.log('request to API');
   let url = `https://api.unsplash.com/photos/random?count=${per_page}`
   const hasQuery = term.trim().length;
 
@@ -20,13 +20,13 @@ export const searchPhotosThunk = createAsyncThunk("searchPhotos", async ({page, 
       }
     });
   } catch (error) {
-    throw `Error while trying to fetch data from API ${error}`
+    throw new Error(`Error while trying to fetch data from API ${error}`)
   }
 
   try {
     jsonData = await response.json();
   } catch (error) {
-    throw `Error while trying to convert the response to json format ${error}`
+    throw new Error(`Error while trying to convert the response to json format ${error}`)
   }
 
   const photos = hasQuery ? { ...jsonData, isNewTerm } : { results: jsonData, isNewTerm }

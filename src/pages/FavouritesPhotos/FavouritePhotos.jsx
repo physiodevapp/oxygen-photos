@@ -40,7 +40,7 @@ export const FavouritePhotosPage = () => {
 
       setFilteredPhotos(() => {
         let filteredPhotos;
-        if (searchTerm === ""  || searchTerm === "random") {
+        if (searchTerm === "" || searchTerm === "random") {
           filteredPhotos = [...favouritePhotosData]
         } else {
           filteredPhotos = [...favouritePhotosData].filter((photo) => photo.description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)

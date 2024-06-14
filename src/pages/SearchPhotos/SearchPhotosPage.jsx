@@ -76,9 +76,9 @@ export const SearchPhotosPage = () => {
   }, [searchPhotosStatus])
 
   useEffect(() => {
-    console.log('searchTerm -->', searchTerm);
-    console.log('isSearchTermBlank --> ', isSearchTermBlank);
-    console.log('hasSearchTermChanged --> ', hasSearchTermChanged);
+    // console.log('searchTerm -->', searchTerm);
+    // console.log('isSearchTermBlank --> ', isSearchTermBlank);
+    // console.log('hasSearchTermChanged --> ', hasSearchTermChanged);
     if (hasSearchTermChanged) { // searchTerm === '' || searchTerm === 'random'
       console.log('object');
       dispatch(searchPhotosThunk({page: 1, per_page: 20}))
@@ -121,16 +121,16 @@ export const SearchPhotosPage = () => {
       }
 
       {/* <div className="page">{page}</div> */}
-      <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData && (isSearchTermBlank || hasSearchTermChanged) ? ' hide' : ''}`}>
+      <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData && ((searchTerm === '' || searchTerm === 'random') || hasSearchTermChanged) ? ' hide' : ''}`}>
 
       { searchPhotosData.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
       </main>
 
-      { (!isLoadingData) && !isSearchTermBlank && 
+      { (!isLoadingData) && (searchTerm !== '' && searchTerm !== 'random') && 
         <div ref={loadRef} className='load-more'>Load more...</div> 
       }
 
-      { (isLoadingData) && (isSearchTermBlank || hasSearchTermChanged) &&
+      { (isLoadingData) && (searchTerm === '' || searchTerm === 'random') && !hasSearchTermChanged &&
         <div className='isLoading'>IS LOADING...</div> 
       }
 
