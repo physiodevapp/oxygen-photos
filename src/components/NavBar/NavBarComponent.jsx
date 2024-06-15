@@ -71,7 +71,7 @@ export const NavBarComponent = ({filteredPhotos, sortBySelected, watchSearchTerm
         }
         </button>
         <div className="search">
-          <input className="search__input" type="text" placeholder={location.pathname.indexOf("favourites") === -1 ? 'Try typing something...' : 'Filter by "About"...'} name="inputTerm" id="" value={inputTerm} onFocus={() => setIsInputFocused(true)} onBlur={() => setTimeout(() => setIsInputFocused(false), 150)}  onChange={({target}) => setInputTerm(target.value)}/>
+          <input className="search__input" type="text" placeholder={location.pathname.indexOf("favourites") === -1 ? 'Try typing something...' : 'Filter by "About"...'} name="inputTerm" id="" value={inputTerm} onFocus={() => setIsInputFocused(true)} onBlur={() => setTimeout(() => setIsInputFocused(false), 500)}  onChange={({target}) => setInputTerm(target.value)}/>
           
           { (!!inputTerm.length) &&
             <button className="search__button-clear" onClick={handleClickClear}>X</button>
@@ -80,7 +80,7 @@ export const NavBarComponent = ({filteredPhotos, sortBySelected, watchSearchTerm
           <button className="search__button-search" onClick={handleClickSearch}>
             { inputTerm.length || location.pathname.indexOf("favourites") !== -1 ? 
               <i className="fa fa-search"></i> :
-              <i className="fa fa-random"></i>
+              <i className="fa fa-random pulsate-fwd"></i>
             }
           </button>
 

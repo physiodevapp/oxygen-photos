@@ -16,7 +16,7 @@ export const favouritePhotosSlice = createSlice({
       if (!state.data.find((photo) => photo.id === action.payload.id)) {
         state.data.push(action.payload);
         toast('Added to your favourites!', {
-          position: "top-center",
+          position: `${window.innerWidth > "480" ? "top-right" : "top-center"}`,
           autoClose: 1000,
           hideProgressBar: true,
           closeOnClick: true,
@@ -25,7 +25,7 @@ export const favouritePhotosSlice = createSlice({
           progress: undefined,
           theme: "dark",
           transition: Bounce,
-          style: {top: "0.7em", left: "2.5%", width: "95%", borderRadius: "0.8em", background: "#000000a8", filter: "drop-shadow(2px 4px 6px black)", border: "0px solid #ffffff80", fontSize: "1.4rem", paddingLeft: "1em"}
+          style: window.innerWidth > "480" ? {top: "0em", left: "0%", width: "100%", borderRadius: "0.8em", background: "#000000a8", filter: "drop-shadow(2px 4px 6px black)", border: "0px solid #ffffff80", fontSize: "1.4rem", paddingLeft: "1em"} : {top: "0.7em", left: "2.5%", width: "95%", borderRadius: "0.8em", background: "#000000a8", filter: "drop-shadow(2px 4px 6px black)", border: "0px solid #ffffff80", fontSize: "1.4rem", paddingLeft: "1em"}
         })
       } else {
         state.data = state.data.filter((photo) => photo.id !== action.payload.id);

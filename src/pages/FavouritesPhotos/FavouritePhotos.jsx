@@ -9,6 +9,7 @@ import { CardImageComponent } from '../../components/CardImage/CardImageComponen
 import { DetailModalComponent } from '../../components/DetailModal/DetailModalComponent';
 import { SkeletonComponent } from '../../components/Skeleton/SkeletonComponent';
 import { ImageNotFoundComponent } from '../../components/ImageNotFound/ImageNotFoundComponent';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 export const FavouritePhotosPage = () => {
 
@@ -56,7 +57,7 @@ export const FavouritePhotosPage = () => {
         return 0
       }
 
-      setFilteredPhotos(() => [...filteredPhotos.sort(compareFunction)]);
+      setFilteredPhotos(() => [...filteredPhotos].sort(compareFunction));
 
     } else {
       setFilteredPhotos(favouritePhotosData);
@@ -76,7 +77,11 @@ export const FavouritePhotosPage = () => {
       />
 
     <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData ? ' hide' : ''}`}>
-    { filteredPhotos.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
+      <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3, 1200: 4}}>
+        <Masonry gutter={"0.6em"}>
+        { filteredPhotos.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
+        </Masonry>
+      </ResponsiveMasonry>         
     </main>
 
     { !isLoadingData && !filteredPhotos.length &&

@@ -27,12 +27,15 @@ export const ImageButtonsComponent = ({photo, canShowDetail, watchIsFavourite = 
   }
 
   const handleClick = (action, photo) => {
-    if (action ==='favourite')
+    if (action === 'favourite') 
       dispatch(addRemove(photo))
     else if (action === 'detail')
       toggleModal('open', photo)
     else if (action === 'download')      
       downloadImage(photo.urls.full, `photo_${Date.now()}`)
+
+    if (action === 'favourite' && detailPhoto && location.pathname.indexOf("favourites") !== -1)
+      toggleModal('close')
   }
 
   useEffect(() => {

@@ -12,6 +12,7 @@ import { CardImageComponent } from '../../components/CardImage/CardImageComponen
 import { DetailModalComponent } from '../../components/DetailModal/DetailModalComponent';
 import { SkeletonComponent } from '../../components/Skeleton/SkeletonComponent';
 import { ImageNotFoundComponent } from '../../components/ImageNotFound/ImageNotFoundComponent';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
 export const SearchPhotosPage = () => {
 
@@ -105,7 +106,11 @@ export const SearchPhotosPage = () => {
       <NavBarComponent watchSearchTerm={watchSearchTerm} />
 
       <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData && (searchTerm === '' || hasSearchTermChanged) ? ' hide' : ''}`}>
-      { searchPhotosData.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
+      <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3, 1200: 4}}>
+        <Masonry gutter={"0.6em"}>
+        { searchPhotosData.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
+        </Masonry>
+      </ResponsiveMasonry>
       </main>
 
       { (!isLoadingData && searchTerm !== '' && !!searchPhotosData.length) && 
