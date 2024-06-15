@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { favouritePhotosDataSelect } from '../../features/favouritesPhotos/favouritePhotosSlice';
 import { CardImageComponent } from '../../components/CardImage/CardImageComponent';
 import { DetailModalComponent } from '../../components/DetailModal/DetailModalComponent';
+import { SkeletonComponent } from '../../components/Skeleton/SkeletonComponent';
 
 export const FavouritePhotosPage = () => {
 
@@ -20,78 +21,61 @@ export const FavouritePhotosPage = () => {
 
   const [isLoadingData, setIsLoadingData] = useState(true);
 
-  const [sortByField, setSortByField] = useState(null);
+  const [sortByField, setSortByField] = useState('');
 
   const watchSearchTerm = (newSearchTerm) => {
+    setHasSearchTermChanged(newSearchTerm !== searchTerm);
 
     setSearchTerm(newSearchTerm);
 
-    if (newSearchTerm === searchTerm)
-      setHasSearchTermChanged(false)
-    else
-      setHasSearchTermChanged(true)
+    setIsLoadingData(true);
 
+    setFilteredPhotos(() => {
+      let filteredPhotos;
+      if (newSearchTerm === "")
+        filteredPhotos = [...favouritePhotosData]
+      else
+        filteredPhotos = [...favouritePhotosData].filter((photo) => photo.description.toLowerCase().indexOf(newSearchTerm.toLowerCase()) !== -1)
+    
+      return filteredPhotos;
+    })
+
+    setTimeout(() => setIsLoadingData(false), 1000);
   }
 
   useEffect(() => {
-    setIsLoadingData(true)
-    setTimeout(() => {
-      setIsLoadingData(false)
+    if (sortByField) {
+      setIsLoadingData(true);
+      const  compareFunction = (photo, nextPhoto) => {
+        if (photo[sortByField] - nextPhoto[sortByField] < 0)
+          return 1
+        else if (photo[sortByField] - nextPhoto[sortByField] > 0)
+          return -1
+        
+        return 0
+      }
 
-      setFilteredPhotos(() => {
-        let filteredPhotos;
-        if (searchTerm === "" || searchTerm === "random") {
-          filteredPhotos = [...favouritePhotosData]
-        } else {
-          filteredPhotos = [...favouritePhotosData].filter((photo) => photo.description.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)
-        }
-      
-        return filteredPhotos
+      setFilteredPhotos(() => [...filteredPhotos.sort(compareFunction)]);
 
-      })
-      
-    }, 1500);
-
-
-  }, [searchTerm, favouritePhotosData])
-
-  useEffect(() => {
-    if (!sortByField)
-      return 
-
-    const  compareFunction = (photo, nextPhoto) => {
-      if (photo[sortByField] - nextPhoto[sortByField] < 0)
-        return 1
-      else if (photo[sortByField] - nextPhoto[sortByField] > 0)
-        return -1
-      
-      return 0
+    } else {
+      setFilteredPhotos(favouritePhotosData);
     }
 
-    setIsLoadingData(true)
-    setTimeout(() => {
-      setIsLoadingData(false)
-      
-      setFilteredPhotos(() => [...filteredPhotos.sort(compareFunction)])
-
-    }, 1500);
-
+    setTimeout(() => setIsLoadingData(false), 1000);
   }, [sortByField, favouritePhotosData])
   
   
   return (
     <>
     { (!detailPhoto || modalStatus !== 'open') && 
-      <NavBarComponent sortBySelected={sortByField} watchSearchTerm={watchSearchTerm} watchSortBy={(field) => setSortByField(field)}/>
+      <NavBarComponent filteredPhotos={filteredPhotos} sortBySelected={sortByField} watchSearchTerm={watchSearchTerm} watchSortBy={(field) => setSortByField(field)}/>
     }
 
     <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData ? ' hide' : ''}`}>
     { filteredPhotos.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
     </main>
 
-    { (isLoadingData) &&
-      <div className='isLoading'>IS LOADING...</div> 
-    }
+    { (isLoadingData) && <SkeletonComponent quantity={10}/> }
 
     { detailPhoto && <DetailModalComponent canEdit={true}/> }
     </>

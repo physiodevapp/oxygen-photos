@@ -10,13 +10,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DetailPhotoContext } from '../../contexts/DetailPhotoContext';
 import { CardImageComponent } from '../../components/CardImage/CardImageComponent';
 import { DetailModalComponent } from '../../components/DetailModal/DetailModalComponent';
+import { SkeletonComponent } from '../../components/Skeleton/SkeletonComponent';
 
 export const SearchPhotosPage = () => {
 
   const { detailPhoto, modalStatus } = useContext(DetailPhotoContext);
 
   const [searchTerm, setSearchTerm] = useState('');  
-  const [isSearchTermBlank, setIsSearchTermBlank] = useState(false);
   const [hasSearchTermChanged, setHasSearchTermChanged] = useState(false);
 
   const loadRef = useRef(null); 
@@ -25,29 +25,22 @@ export const SearchPhotosPage = () => {
   const searchPhotosData = useSelector(searchPhotosDataSelect);
   const searchPhotosStatus = useSelector(searchPhotosStatusSelect);
 
-  const [isLoadingData, setIsLoadingData] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   const [page, setPage] = useState(1);
 
   const watchSearchTerm = (newSearchTerm) => {
-    if (newSearchTerm === 'random')
-      setIsSearchTermBlank(true)
-    else
-      setIsSearchTermBlank(false)
+    setHasSearchTermChanged(newSearchTerm !== searchTerm);
 
-    if (newSearchTerm === searchTerm)
-      setHasSearchTermChanged(false)
-    else
-      setHasSearchTermChanged(true)
+    setSearchTerm(newSearchTerm);
 
-    if (newSearchTerm === 'random' && searchTerm === 'random')
-      setSearchTerm('')
-    else
-      setSearchTerm(newSearchTerm)
+    if (newSearchTerm === '') 
+      dispatch(searchPhotosThunk({page: 1, per_page: 20}))
+    else if (newSearchTerm !== "" && newSearchTerm !== searchTerm) 
+      dispatch(searchPhotosThunk({page: 1, per_page: 20, term: newSearchTerm}))
   }
 
   useEffect(() => {
-    // console.log('searchPhotosStatus _--> ', searchPhotosStatus);
     switch (searchPhotosStatus) {
       case 'idle': 
         dispatch(searchPhotosThunk({page: 1, per_page: 20}))
@@ -58,15 +51,11 @@ export const SearchPhotosPage = () => {
         break;
     
       case 'fulfilled':      
-        setTimeout(() => {
-          setIsLoadingData(false);
-        }, 1500);
+        setTimeout(() => setIsLoadingData(false), 1500);
         break;
       
       case 'rejected':
-        setTimeout(() => {
-          setIsLoadingData(false);
-        }, 1500);
+        setTimeout(() => setIsLoadingData(false), 1500);
         break;
 
       default:
@@ -75,18 +64,6 @@ export const SearchPhotosPage = () => {
 
   }, [searchPhotosStatus])
 
-  useEffect(() => {
-    // console.log('searchTerm -->', searchTerm);
-    // console.log('isSearchTermBlank --> ', isSearchTermBlank);
-    // console.log('hasSearchTermChanged --> ', hasSearchTermChanged);
-    if (hasSearchTermChanged) { // searchTerm === '' || searchTerm === 'random'
-      console.log('object');
-      dispatch(searchPhotosThunk({page: 1, per_page: 20}))
-    } else if (searchTerm !== "" && searchTerm !== "random") {
-      console.log('object2');
-      dispatch(searchPhotosThunk({page: 1, per_page: 20, term: searchTerm}))
-    }
-  }, [searchTerm])
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -112,26 +89,34 @@ export const SearchPhotosPage = () => {
         observer.unobserve(loadRef.current)
     }
 
-  }, [loadRef, page, isLoadingData])
+  }, [loadRef, page, isLoadingData])  
 
-  return ( 
+  useEffect(() => {
+    if (hasSearchTermChanged || searchTerm === '')
+      window.scrollTo({
+        top: 0,
+        left: 0
+      })
+  }, [hasSearchTermChanged, searchTerm])
+
+  return (
     <>
       { (!detailPhoto || modalStatus !== 'open') && 
-        <NavBarComponent path={"/favourites"} watchSearchTerm={watchSearchTerm} />
+        <NavBarComponent watchSearchTerm={watchSearchTerm} />
       }
 
       {/* <div className="page">{page}</div> */}
-      <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData && ((searchTerm === '' || searchTerm === 'random') || hasSearchTermChanged) ? ' hide' : ''}`}>
+      <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData && (searchTerm === '' || hasSearchTermChanged) ? ' hide' : ''}`}>
 
       { searchPhotosData.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
       </main>
 
-      { (!isLoadingData) && (searchTerm !== '' && searchTerm !== 'random') && 
+      { (!isLoadingData) && (searchTerm !== '') && 
         <div ref={loadRef} className='load-more'>Load more...</div> 
       }
 
-      { (isLoadingData) && (searchTerm === '' || searchTerm === 'random') && !hasSearchTermChanged &&
-        <div className='isLoading'>IS LOADING...</div> 
+      { (isLoadingData) && (searchTerm === '' || hasSearchTermChanged) &&
+        <SkeletonComponent quantity={10}/>
       }
 
       { detailPhoto && <DetailModalComponent canEdit={true}/> }

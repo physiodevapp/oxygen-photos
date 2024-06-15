@@ -1,9 +1,12 @@
 
 .header {
   height: 100px;
-  line-height: 100px;
+  line-height: 110px;
   background-color: black;
   color: white;
   font-size: 2.6rem;
-  padding: 0em 1em;
+  padding: 0em 1em 0em 0.6em;
+  background-image: url("https://www.escueladesarts.com/wp-content/uploads/fotografia-a-color.jpg");
+  background-size: cover;
+  background-position-y: bottom;
 }

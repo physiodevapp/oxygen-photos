@@ -6,6 +6,8 @@ import { DetailPhotoProvider } from "./contexts/DetailPhotoProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FavouritePhotosPage } from "./pages/FavouritesPhotos/FavouritePhotos";
 import { HeaderComponent } from "./components/Header/HeaderComponent";
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -13,33 +15,15 @@ function App() {
 
   useEffect(() => {
     dispatch(loadFromStorage());
-
-    const handleScroll = () => {
-      const navbar = document.getElementById("navbar");
-      const stickyHeight = navbar.offsetTop;
-
-      if (window.scrollY > stickyHeight) {
-        navbar.classList.add("sticky")
-        navbar.classList.remove("unsticky")
-      } else {
-        navbar.classList.remove("sticky")
-        navbar.classList.add("unsticky")
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
   }, [])
 
 
   return (
     <>
       <DetailPhotoProvider>
-        <HeaderComponent/>
         <BrowserRouter>
+          <HeaderComponent/>
+          <ToastContainer/>
           <Routes>
             <Route path="/" element={<SearchPhotosPage/>}/>
             <Route path="/favourites" element={<FavouritePhotosPage/>}/> 

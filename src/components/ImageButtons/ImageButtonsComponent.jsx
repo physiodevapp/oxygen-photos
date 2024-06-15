@@ -9,9 +9,9 @@ export const ImageButtonsComponent = ({photo, canShowDetail, watchIsFavourite = 
 
   const dispatch = useDispatch();
   const favouritePhotosData = useSelector(favouritePhotosDataSelect);
-  const [isFavourite, setIsFavourite] = useState(false)
+  const [isFavourite, setIsFavourite] = useState(false);
 
-  const { toggleModal } = useContext(DetailPhotoContext);
+  const { detailPhoto, toggleModal } = useContext(DetailPhotoContext);
 
   const downloadImage = async (imageSrc, imageName = "image") => {
     const image = await fetch(imageSrc)
@@ -27,14 +27,12 @@ export const ImageButtonsComponent = ({photo, canShowDetail, watchIsFavourite = 
   }
 
   const handleClick = (action, photo) => {
-
     if (action ==='favourite')
       dispatch(addRemove(photo))
     else if (action === 'detail')
       toggleModal('open', photo)
     else if (action === 'download')      
       downloadImage(photo.urls.full, `photo_${Date.now()}`)
-
   }
 
   useEffect(() => {

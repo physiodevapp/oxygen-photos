@@ -37,11 +37,15 @@ $sticky-height: 70px;
 
   & .sort-button {
     font-size: 2.1rem;
+
+    &.hide {
+      display: none;
+    }
   }
 
   & .sort-selector {
     padding: 0.45em;
-    padding-left: 0.8em;
+    padding-bottom: 0.8em;
     border-radius: 0.6em;
     position: absolute;
     right: 0em;
@@ -95,20 +99,31 @@ $sticky-height: 70px;
       font-size: 1.4rem;
       border: 1px solid #aaa5a5;
     }
-  
-    &__button {
+
+    &__button-clear, &__button-search {
       position: absolute;
-      right: 0.08em;
       top: 50%;
       padding: 0em 0.25em;
       padding-left: 0.4em;
       transform: translate(0%, -50%);
       border: none;
-      font-size: 2.2rem;
       background-color: white;
       border-radius: 0 0.3em 0.3em 0;
       outline: none;
       cursor: pointer;
+    }
+    
+    &__button-clear {
+      font-size: 1.8rem;
+      right: 1.8em;
+      color: gray;
+      z-index: 2;
+    }
+    
+    &__button-search {
+      font-size: 2.2rem;
+      right: 0.08em;
+      z-index: 1;
     }
 
   }
