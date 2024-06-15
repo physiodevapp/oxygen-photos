@@ -102,11 +102,8 @@ export const SearchPhotosPage = () => {
 
   return (
     <>
-      { (!detailPhoto || modalStatus !== 'open') && 
-        <NavBarComponent watchSearchTerm={watchSearchTerm} />
-      }
+      <NavBarComponent watchSearchTerm={watchSearchTerm} />
 
-      {/* <div className="page">{page}</div> */}
       <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData && (searchTerm === '' || hasSearchTermChanged) ? ' hide' : ''}`}>
       { searchPhotosData.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
       </main>

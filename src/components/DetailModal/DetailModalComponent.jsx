@@ -38,7 +38,11 @@ export const DetailModalComponent = ({canEdit}) => {
             <ul>Size: <b>{detailPhoto.width}</b> x <b>{detailPhoto.height}</b></ul>
             <ul>Likes: <b>{detailPhoto.likes}</b> <i className="fa fa-heart pulsate-fwd" style={{color: 'red'}}></i></ul>
           </li>
-          <h4 className="photo-detail__article__info__title">About the image {canEdit && isFavourite && <i className="fa fa-pencil-square-o" onClick={() => setActivateEditation(!activateEditation)}></i>}</h4>
+          <h4 className="photo-detail__article__info__title">About the image {
+            canEdit && isFavourite && !activateEditation &&
+            <i className="fa fa-pencil-square-o" onClick={() => setActivateEditation(!activateEditation)}></i>
+            }
+          </h4>
           <textarea className="photo-detail__article__info__description" rows={6} disabled={!canEdit || !activateEditation} value={imageDescription} onChange={handleChangeDescription}></textarea>
         </article>
         { !activateEditation && <ImageButtonsComponent photo={detailPhoto} canShowDetail={false} watchIsFavourite={(isFavourite) => setIsFavourite(isFavourite)}/> } 

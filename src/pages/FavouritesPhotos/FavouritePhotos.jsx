@@ -68,9 +68,12 @@ export const FavouritePhotosPage = () => {
   
   return (
     <>
-    { (!detailPhoto || modalStatus !== 'open') && 
-      <NavBarComponent filteredPhotos={filteredPhotos} sortBySelected={sortByField} watchSearchTerm={watchSearchTerm} watchSortBy={(field) => setSortByField(field)}/>
-    }
+    <NavBarComponent 
+      filteredPhotos={filteredPhotos} 
+      sortBySelected={sortByField} 
+      watchSearchTerm={watchSearchTerm} 
+      watchSortBy={(field) => setSortByField(field)}
+      />
 
     <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData ? ' hide' : ''}`}>
     { filteredPhotos.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
