@@ -11,6 +11,7 @@ import { DetailPhotoContext } from '../../contexts/DetailPhotoContext';
 import { CardImageComponent } from '../../components/CardImage/CardImageComponent';
 import { DetailModalComponent } from '../../components/DetailModal/DetailModalComponent';
 import { SkeletonComponent } from '../../components/Skeleton/SkeletonComponent';
+import { ImageNotFoundComponent } from '../../components/ImageNotFound/ImageNotFoundComponent';
 
 export const SearchPhotosPage = () => {
 
@@ -107,12 +108,15 @@ export const SearchPhotosPage = () => {
 
       {/* <div className="page">{page}</div> */}
       <main className={`gallery${modalStatus === 'open' ? ' freeze' : ''}${isLoadingData && (searchTerm === '' || hasSearchTermChanged) ? ' hide' : ''}`}>
-
       { searchPhotosData.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
       </main>
 
-      { (!isLoadingData) && (searchTerm !== '') && 
+      { (!isLoadingData && searchTerm !== '' && !!searchPhotosData.length) && 
         <div ref={loadRef} className='load-more'>Load more...</div> 
+      }
+
+      { !isLoadingData && !searchPhotosData.length &&
+        <ImageNotFoundComponent/>
       }
 
       { (isLoadingData) && (searchTerm === '' || hasSearchTermChanged) &&

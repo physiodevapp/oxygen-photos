@@ -8,6 +8,7 @@ import { favouritePhotosDataSelect } from '../../features/favouritesPhotos/favou
 import { CardImageComponent } from '../../components/CardImage/CardImageComponent';
 import { DetailModalComponent } from '../../components/DetailModal/DetailModalComponent';
 import { SkeletonComponent } from '../../components/Skeleton/SkeletonComponent';
+import { ImageNotFoundComponent } from '../../components/ImageNotFound/ImageNotFoundComponent';
 
 export const FavouritePhotosPage = () => {
 
@@ -75,7 +76,11 @@ export const FavouritePhotosPage = () => {
     { filteredPhotos.map((photo) => <CardImageComponent photo={photo} key={photo.id} />) }
     </main>
 
-    { (isLoadingData) && <SkeletonComponent quantity={10}/> }
+    { !isLoadingData && !filteredPhotos.length &&
+      <ImageNotFoundComponent/>
+    }
+
+    { isLoadingData && <SkeletonComponent quantity={10}/> }
 
     { detailPhoto && <DetailModalComponent canEdit={true}/> }
     </>
