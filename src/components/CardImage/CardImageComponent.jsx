@@ -8,8 +8,8 @@ export const CardImageComponent = ({photo}) => {
 
   return (
     <>
-      <figure className='image-card'>
-        <img src={photo.urls.regular} alt={photo.alt_description}/> 
+      <figure className='image-card' style={{backgroundImage: `url("${photo.urls.regular}")`}}>
+        <div className="image-card__size-calculator" style={{height:`${(window.innerHeight / 1.6) * (photo.height / photo.width)}px`}}></div>
         <ImageButtonsComponent photo={photo} canShowDetail={true}/>
       </figure>
     </>

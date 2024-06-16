@@ -31,7 +31,7 @@ export const searchPhotosThunk = createAsyncThunk("searchPhotos", async ({page, 
 
   const photos = hasQuery ? { ...jsonData, isNewTerm } : { results: jsonData, isNewTerm }
 
-  // console.log('photos --> ', photos);
+  console.log('photos --> ', photos);
 
   return {
     isNewTerm: isNewTerm,

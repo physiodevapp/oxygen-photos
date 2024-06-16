@@ -4,9 +4,13 @@
   width: 100%;
   position: relative;
   margin-bottom: 0em;
+  flex: 1;
+  background-position: center;
+  background-size: cover;
 
-  img {
+  &__size-calculator {
     width: 100%;
+    min-height: 290px;
   }
 
 }
