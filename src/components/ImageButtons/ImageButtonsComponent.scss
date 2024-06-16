@@ -22,14 +22,20 @@
     cursor: pointer;
   }
 
+  &__details, &__download {
+    flex-grow: 1;
+    text-align: right;
+
+  }
+
   &__favourites {
     flex-grow: 10;
     text-align: left;
   }
 
-  &__details, &__download {
-    flex-grow: 1;
-    text-align: right;
+  &__favourites__text, &__download__text {  
+    display: none;
+  
   }
-
+  
 }

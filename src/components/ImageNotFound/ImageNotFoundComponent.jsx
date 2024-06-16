@@ -7,7 +7,7 @@ export const ImageNotFoundComponent = () => {
     <>
       <article className='image-not-found'>
         <i className="fa fa-file-image-o"></i>
-        <p className="image-not-found__message">Images not found!</p>
+        <p className="image-not-found__message">Images not found! <br/> <span style={{fontSize: "1.6rem"}}>(try typing something else)</span></p>
       </article>
     </>
   )

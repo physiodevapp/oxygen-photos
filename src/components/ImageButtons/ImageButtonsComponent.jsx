@@ -49,9 +49,9 @@ export const ImageButtonsComponent = ({photo, canShowDetail, watchIsFavourite = 
   return (
     <>
       <ul className="image-buttons">
-        <li className="image-buttons__favourites"><button onClick={() => handleClick('favourite', photo)}><i className={isFavourite ? 'fa fa-bookmark' : 'fa fa-bookmark-o'}></i></button></li>
+        <li className="image-buttons__favourites"><button onClick={() => handleClick('favourite', photo)}><i className={isFavourite ? 'fa fa-bookmark' : 'fa fa-bookmark-o'}></i><span className="image-buttons__favourites__text"> {isFavourite ? "Added" : "Add"} to your favourites</span></button></li>
         {canShowDetail && <li className="image-buttons__details"><button onClick={() => handleClick('detail', photo)}><i className="fa fa-info"></i></button></li>}
-        <li className="image-buttons__download"><button onClick={() => handleClick('download', photo)}><i className="fa fa-cloud-download"></i></button></li>
+        <li className="image-buttons__download"><button onClick={() => handleClick('download', photo)}><span className="image-buttons__download__text">Download </span><i className="fa fa-cloud-download"></i></button></li>
       </ul>
     </>
   )

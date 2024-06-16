@@ -10,3 +10,9 @@
   background-size: cover;
   background-position-y: bottom;
 }
+
+@media only screen and (min-width: 580px) {
+  .header {
+    background-position-y: center;
+  }
+}

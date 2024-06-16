@@ -43,7 +43,7 @@ export const DetailModalComponent = ({canEdit}) => {
             <i className="fa fa-pencil-square-o" onClick={() => setActivateEditation(!activateEditation)}></i>
             }
           </h4>
-          <textarea className="photo-detail__article__info__description" rows={6} disabled={!canEdit || !activateEditation} value={imageDescription} onChange={handleChangeDescription}></textarea>
+          <textarea className="photo-detail__article__info__description" rows={1} disabled={!canEdit || !activateEditation} value={imageDescription} onChange={handleChangeDescription}></textarea>
         </article>
         { !activateEditation && <ImageButtonsComponent photo={detailPhoto} canShowDetail={false} watchIsFavourite={(isFavourite) => setIsFavourite(isFavourite)}/> } 
         { activateEditation && 

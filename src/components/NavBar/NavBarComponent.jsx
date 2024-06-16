@@ -71,7 +71,7 @@ export const NavBarComponent = ({filteredPhotos, sortBySelected, watchSearchTerm
         }
         </button>
         <div className="search">
-          <input className="search__input" type="text" placeholder={location.pathname.indexOf("favourites") === -1 ? 'Try typing something...' : 'Filter by "About"...'} name="inputTerm" id="" value={inputTerm} onFocus={() => setIsInputFocused(true)} onBlur={() => setTimeout(() => setIsInputFocused(false), 500)}  onChange={({target}) => setInputTerm(target.value)}/>
+          <input className="search__input" type="text" placeholder={location.pathname.indexOf("favourites") === -1 ? 'Try typing something...' : 'Filter by "About"...'} name="inputTerm" id="" value={inputTerm} onFocus={() => setIsInputFocused(true)} onBlur={() => setTimeout(() => setIsInputFocused(false), 400)}  onChange={({target}) => setInputTerm(target.value)}/>
           
           { (!!inputTerm.length) &&
             <button className="search__button-clear" onClick={handleClickClear}>X</button>
