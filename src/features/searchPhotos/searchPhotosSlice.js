@@ -16,7 +16,6 @@ export const searchPhotosSlice = createSlice({
         state.status = "pending";
       })
       .addCase(searchPhotosThunk.fulfilled, (state, action) => {
-        // console.log('searchPhotosThunk.fulfilled --> ', {action});
         if (action.payload.isNewTerm) {
           state.data = action.payload.photos;
           
@@ -28,7 +27,6 @@ export const searchPhotosSlice = createSlice({
         state.status = "fulfilled";
       })
       .addCase(searchPhotosThunk.rejected, (state, action) => {
-        console.log('rejected --> ',  action);
         state.status = "rejected"
         state.error = action.error.message;
       })

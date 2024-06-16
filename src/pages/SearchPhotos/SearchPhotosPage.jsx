@@ -70,7 +70,6 @@ export const SearchPhotosPage = () => {
     const observer = new IntersectionObserver((entries) => {
 
       if (entries[0].isIntersecting && window.scrollY && !isLoadingData) {
-        console.log('intersected!');
         dispatch(searchPhotosThunk({page: page + 1, per_page: 20, term: searchTerm, isNewTerm: false}));
         setPage((prevPage) => prevPage + 1);
         setHasSearchTermChanged(false);

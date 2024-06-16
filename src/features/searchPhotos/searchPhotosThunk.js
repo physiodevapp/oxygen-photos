@@ -3,7 +3,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 
 export const searchPhotosThunk = createAsyncThunk("searchPhotos", async ({page, per_page, term = "", isNewTerm = true}) => {
-  console.log('request to API');
   let url = `https://api.unsplash.com/photos/random?count=${per_page}`
   const hasQuery = term.trim().length;
 
@@ -30,8 +29,6 @@ export const searchPhotosThunk = createAsyncThunk("searchPhotos", async ({page, 
   }
 
   const photos = hasQuery ? { ...jsonData, isNewTerm } : { results: jsonData, isNewTerm }
-
-  console.log('photos --> ', photos);
 
   return {
     isNewTerm: isNewTerm,

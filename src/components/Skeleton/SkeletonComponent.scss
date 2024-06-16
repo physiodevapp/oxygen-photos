@@ -8,6 +8,11 @@
     position: relative;
     margin-bottom: 0.4em;
     line-height: 1;
+    flex: 1;
+
+    &__image {
+      min-height: 100%;
+    }
   
     &__buttons {
       position: absolute !important;
