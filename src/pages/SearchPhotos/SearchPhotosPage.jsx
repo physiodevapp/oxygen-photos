@@ -1,6 +1,5 @@
 
 
-// import { GalleryComponent } from '../../components/Gallery/GalleryComponent';
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import "./SearchPhotosPage.scss";
 import { searchPhotosDataSelect, searchPhotosStatusSelect } from '../../features/searchPhotos/searchPhotosSlice';

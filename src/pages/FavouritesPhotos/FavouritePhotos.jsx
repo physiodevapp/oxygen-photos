@@ -1,5 +1,4 @@
 
-// import { GalleryComponent } from '../../components/Gallery/GalleryComponent';
 import React, { useContext, useEffect, useState } from 'react'
 import { NavBarComponent } from '../../components/NavBar/NavBarComponent';
 import { DetailPhotoContext } from '../../contexts/DetailPhotoContext';
@@ -46,25 +45,26 @@ export const FavouritePhotosPage = () => {
   }
 
   useEffect(() => {
-    if (sortByField) {
-      setIsLoadingData(true);
-      const  compareFunction = (photo, nextPhoto) => {
-        if (photo[sortByField] - nextPhoto[sortByField] < 0)
-          return 1
-        else if (photo[sortByField] - nextPhoto[sortByField] > 0)
-          return -1
-        
-        return 0
-      }
+    setIsLoadingData(true);
 
-      setFilteredPhotos(() => [...filteredPhotos].sort(compareFunction));
-
-    } else {
-      setFilteredPhotos(favouritePhotosData);
+    const  compareFunction = (photo, nextPhoto) => {
+      if (photo[sortByField] - nextPhoto[sortByField] < 0)
+        return 1
+      else if (photo[sortByField] - nextPhoto[sortByField] > 0)
+        return -1
+      
+      return 0
     }
 
+    setFilteredPhotos(() => [...filteredPhotos].sort(compareFunction));    
+
     setTimeout(() => setIsLoadingData(false), 1000);
-  }, [sortByField, favouritePhotosData])
+  }, [sortByField])
+
+  useEffect(() => {
+    setFilteredPhotos(favouritePhotosData);
+
+  }, [favouritePhotosData])
   
   
   return (
