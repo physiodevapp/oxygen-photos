@@ -178,3 +178,17 @@ $pulsate-fwd-duration: 4.5s;
             transform: scale(1);
   }
 }
+
+@media only screen and (min-width: 580px) {
+  .navbar {
+
+    & .sort-selector {
+      position: fixed;
+      width: 14em;
+      top: 3.4em;
+      right: 0.4em;
+      box-shadow: 0px 3px 18px 0px rgba(31,30,31,1);
+
+    }
+  }
+}

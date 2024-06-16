@@ -47,12 +47,19 @@ export const NavBarComponent = ({filteredPhotos, sortBySelected, watchSearchTerm
 
 
   useEffect(() => {
-    const handleScroll = () => setStick(window.scrollY > 100)
+    const handleScroll = () => setStick(window.scrollY > 100);
+    const handleClick = ({target}) => {
+      if (JSON.stringify(target.classList).indexOf("sort-button") === -1)
+        setCanBeSortSelectorVisible(false)
 
-    window.addEventListener("scroll", handleScroll)
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("click", handleClick);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("click", handleClick);
     }
   }, [])
 
@@ -96,7 +103,7 @@ export const NavBarComponent = ({filteredPhotos, sortBySelected, watchSearchTerm
         </div>
 
         { location.pathname.indexOf("favourites") !== -1 &&
-          <button className={`sort-button${isInputFocused ? ' hide' : ''}`} disabled={!filteredPhotos.length} onClick={() => setCanBeSortSelectorVisible(!canBeSortSelectorVisible)}><i className="fa fa-sort-amount-desc"></i></button>
+          <button className={`sort-button${isInputFocused ? ' hide' : ''}`} disabled={!filteredPhotos.length} onClick={() => setCanBeSortSelectorVisible(!canBeSortSelectorVisible)}><i className="sort-button__icon fa fa-sort-amount-desc"></i></button>
         }
       </nav>
     </>
