@@ -16,6 +16,11 @@ $pulsate-fwd-duration: 4.5s;
   justify-content: space-between;
   padding: 0em 1em;
   column-gap: 1em;
+  color: black;
+
+  i, input {
+    color: black;
+  }
 
   &.sticky {
     position: fixed;
@@ -50,7 +55,7 @@ $pulsate-fwd-duration: 4.5s;
     border-radius: 0.6em;
     position: absolute;
     right: 0em;
-    top: 16%;
+    top: 0.4em;
     outline: none;
     width: 100%;
     font-size: 1.4rem;
@@ -128,6 +133,7 @@ $pulsate-fwd-duration: 4.5s;
       z-index: 1;
 
       & .pulsate-fwd {
+        margin-top: 0.2em;
         -webkit-animation: pulsate-fwd $pulsate-fwd-duration ease-in-out infinite both;
                 animation: pulsate-fwd $pulsate-fwd-duration ease-in-out infinite both;
       }
